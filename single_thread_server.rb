@@ -18,7 +18,8 @@ module SingleThread
     end
 
     def start
-      socket = listen_on_socket
+      socket = TCPServer.new(HOST, PORT)
+      socket.listen(SOCKET_READ_BACKLOG)
       loop do # continuously listen to new connections
         conn, _addr_info = socket.accept
         request = RequestParser.call(conn)
@@ -31,8 +32,8 @@ module SingleThread
       end
     end
 
-    private
-
+    # private
+    #
     # Full implementation w/o TCPServer class
     # def listen_on_socket
     #   Socket.new(:INET, :STREAM)
@@ -40,12 +41,22 @@ module SingleThread
     #   socket.bind(Addrinfo.tcp(HOST, PORT))
     #   socket.listen(SOCKET_READ_BACKLOG)
     # end
+  end
+end
 
-    def listen_on_socket
-      socket = TCPServer.new(HOST, PORT)
-      socket.listen(SOCKET_READ_BACKLOG)
+class FileServingApp
+  # read file from the filesystem based on a path from
+  # a request, e.g. "/test.txt"
+  def call(env)
+    # this is totally unsecure, but good enough for the demo
+    path = Dir.getwd + env['PATH_INFO']
+    if File.exist?(path)
+      body = File.read(path)
+      [200, { 'Content-Type' => 'text/html' }, [body]]
+    else
+      [404, { 'Content-Type' => 'text/html' }, ['']]
     end
   end
 end
 
-SingleThread::Server.new(SomeRackApp.new).start
+SingleThread::Server.new(FileServingApp.new).start

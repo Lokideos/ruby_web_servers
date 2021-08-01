@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'uri'
+require 'stringio'
+
 module SingleThread
   class RequestParser
     MAX_URI_LENGTH = 2083 # HTTP standard
