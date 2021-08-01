@@ -4,11 +4,9 @@ AllCops:
   StyleGuideCopsOnly: false
   NewCops: enable
   Exclude:
-    - '**/config/**/*'
     - '**/log/**/*'
     - '**/tmp/**/*'
     - 'Gemfile'
-    - 'config.ru'
 
 Layout/LineLength:
   Max: 120
