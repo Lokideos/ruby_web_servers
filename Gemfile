@@ -8,4 +8,5 @@ ruby '3.0.0'
 
 group :development do
   gem 'rubocop', '~> 1.1'
+  gem 'pry-byebug'
 end
