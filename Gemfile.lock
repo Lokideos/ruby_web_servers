@@ -4,6 +4,7 @@ GEM
     ast (2.4.2)
     byebug (11.1.3)
     coderay (1.1.3)
+    libev_scheduler (0.2)
     method_source (1.0.0)
     parallel (1.20.1)
     parser (3.0.2.0)
@@ -35,6 +36,7 @@ PLATFORMS
   x86_64-darwin-19
 
 DEPENDENCIES
+  libev_scheduler
   pry-byebug
   rubocop (~> 1.1)
 
