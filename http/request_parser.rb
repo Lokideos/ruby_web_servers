@@ -3,7 +3,7 @@
 require 'uri'
 require 'stringio'
 
-module SingleThread
+module HTTP
   class RequestParser
     MAX_URI_LENGTH = 2083 # HTTP standard
     MAX_HEADER_LENGTH = (112 * 1024) # Like in Puma

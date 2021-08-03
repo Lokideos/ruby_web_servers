@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'socket'
-require_relative './single_thread/http_responder'
-require_relative './single_thread/request_parser'
+require_relative './http/responder'
+require_relative './http/request_parser'
 
 module SingleThread
   class Server
@@ -20,16 +20,19 @@ module SingleThread
     def start
       socket = TCPServer.new(HOST, PORT)
       socket.listen(SOCKET_READ_BACKLOG)
+      p "--- Server started on host #{HOST} and port #{PORT}"
       loop do # continuously listen to new connections
         conn, _addr_info = socket.accept
-        request = RequestParser.call(conn)
+        request = HTTP::RequestParser.call(conn)
         status, headers, body = app.call(request)
-        HttpResponder.call(conn, status, headers, body)
+        HTTP::Responder.call(conn, status, headers, body)
       rescue StandardError => e
         puts e.message
       ensure # always close the connection
         conn&.close
       end
+    rescue Interrupt
+      puts '-- Server stopped successfully'
     end
 
     # private

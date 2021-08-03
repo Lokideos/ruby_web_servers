@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module SingleThread
-  class HttpResponder
+module HTTP
+  class Responder
     STATUS_MESSAGES = {
       200 => 'OK',
       404 => 'Not Found'
